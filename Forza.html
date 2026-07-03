@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>COD Tournaments</title>
+</head>
+<body>
+<style>
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: white;
+    min-height: 100vh;
+
+    background-image:
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
+    url('https://images.unsplash.com/photo-1542751371-adc38448a05e');
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* ===== HEADER ===== */
+h1 {
+    text-align: center;
+    font-size: 3rem;
+    letter-spacing: 2px;
+    margin-top: 20px;
+    color: #00d4ff;
+    text-shadow: 0 0 15px rgba(0,212,255,0.7);
+}
+
+/* ===== TOURNAMENT GRID ===== */
+#tournaments {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* ===== CARD STYLE ===== */
+.tournament-card {
+    background: rgba(255,255,255,0.07);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+
+    transition: 0.3s;
+}
+
+.tournament-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 0 25px rgba(0,212,255,0.6);
+}
+
+/* ===== TEXT ===== */
+.tournament-card h3 {
+    margin: 0 0 10px;
+    color: #00d4ff;
+}
+
+.tournament-card p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* ===== BUTTON ===== */
+.btn-play {
+    background: linear-gradient(45deg, #1DB954, #00d4ff);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-play:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #00d4ff;
+}
+
+/* ===== LIST SECTION ===== */
+li {
+    list-style: none;
+    margin: 20px;
+    padding: 15px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+}
+
+ul {
+    margin: 5px 0;
+    padding-left: 10px;
+}
+
+/* ===== GAME INFO ===== */
+b {
+    display: block;
+    font-size: 1.5rem;
+    margin: 20px;
+    color: #00d4ff;
+}
+
+p {
+    margin: 10px 20px;
+    line-height: 1.6;
+}
+
+/* ===== BACK LINK ===== */
+a {
+    display: block;
+    margin: 20px;
+    text-decoration: none;
+    color: #00d4ff;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.img-banner {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.img-card {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+</style>
+
+<h1>Forza Horizon 5</h1>
+
+<div id="tournaments"></div>
+
+<li> Registration codes for respective weekly tournaments 
+
+<ul> Morning (Saturday) 9:00 AM (EU zone)- 99UYI </ul>
+
+<ul> Evening (Tuesday)  7:00 AM - (Organised by Byzantion Games) - 5557T</ul>
+
+<ul> Morning (Sunday) 11:00 AM (Oceania) - 799UY </ul>
+</li>
+
+<a href="index.html">Back</a>
+
+
+<b> Game Info </b>
+<p>
+Forza Horizon 5 is a 2021 racing game developed by Playground Games and published by Xbox Game Studios. It is the fifth Forza Horizon title, following Forza Horizon 4, and the twelfth main instalment in the Forza series. The game is set in a fictionalised representation of Mexico. It was released on 9 November 2021 for Windows, Xbox One, and Xbox Series X/S. I
+</p>
+
+<p>
+In our tournaments, players can participate solo or as a team, depending on the format. Matches are conducted in custom lobbies, and participants must join using the provided tournament code before the match begins. Make sure to check the schedule and be ready at least 10 minutes early.
+</p>
+
+<p>
+🔥 Tips:
+- Communicate with your teammate for better coordination  
+- Ensure that your in-game vehicle is well tuned  
+- Most importantly , stick to the tournament rules! 
+</p>
+
+<img src = https://tse2.mm.bing.net/th/id/OIP.af-kok1DS7o4ewelZdpUvQHaEK?pid=Api&P=0&h=180>
+
+<script>
+function loadForza() {
+
+
+  const data = JSON.parse(localStorage.getItem("tournaments")) || [];
+
+  let html = "";
+
+  data.forEach(t => {
+
+    
+    if(t.game.toLowerCase().includes("forza") || 
+       t.game.toLowerCase().includes("forza horizon")){
+
+      html += `
+        <div class="tournament-card">
+          <h3>${t.name}</h3>
+          <p>Date: ${t.date}</p>
+          <p>Zone: ${t.zone}</p>
+          <p>Organizer: ${t.organizer}</p>
+          <p>Prize: $${t.prize}</p>
+          <p><b>Join Code:</b> ${t.name.slice(0,3).toUpperCase()}123</p>
+        </div>
+      `;
+    }
+
+  });
+
+  document.getElementById("tournaments").innerHTML = html;
+}
+
+loadForza();
+
+  let html = "";
+
+  data.forEach(t => {
+    if(t.game.toLowerCase().includes("forza horizon") || t.game.toLowerCase().includes("Forza Horizon 4")){
+      html += `
+        <div style="border:1px solid white; padding:10px; margin:10px;">
+          <h3>${t.name}</h3>
+          <p>Date: ${t.date}</p>
+          <p>Type: ${t.type}</p>
+          ${t.code}
+        </div>
+      `;
+    }
+  });
+
+  document.getElementById("tournaments").innerHTML = html;
+}
+
+loadForza();
+</script>
+
+</body>
+</html>
