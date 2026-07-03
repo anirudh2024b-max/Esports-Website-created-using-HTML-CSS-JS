@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpotPoint - Your Destination for Esports Tournaments</title>
+
+<style>
+
+/* ========== GLOBAL ========== */
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    color:white;
+    min-height:100vh;
+    background-image:
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+    url('https://images.unsplash.com/photo-1542751371-adc38448a05e');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+/* ========== NAVBAR ========== */
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 5%;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(10px);
+}
+
+.logo{
+    font-size:1.5rem;
+    font-weight:bold;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    margin-left:25px;
+    opacity:0.7;
+}
+
+.nav-links a:hover{
+    opacity:1;
+}
+
+@media(max-width:768px){
+    nav{
+        flex-direction:column;
+    }
+    .nav-links a{
+        display:block;
+        margin:10px 0;
+    }
+}
+
+/* ========== SEARCH ========== */
+.search-container{
+    text-align:center;
+    padding:20px;
+}
+
+.search-container input{
+    padding:10px;
+    width:40%;
+    border-radius:25px;
+    border:none;
+}
+
+/* ========== GRID ========== */
+.container{
+    padding:40px 5%;
+}
+
+.album-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    margin-top:25px;
+}
+
+.album-card{
+    background:rgba(255,255,255,0.08);
+    padding:15px;
+    border-radius:15px;
+    text-align:center;
+    transition:0.4s;
+}
+
+.album-card:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 25px rgba(0,212,255,0.7);
+}
+
+.album-card img{
+    width:100%;
+    border-radius:10px;
+}
+
+/* ========== BUTTONS ========== */
+.btn-play{
+    background:linear-gradient(45deg,#1DB954,#00d4ff);
+    color:white;
+    border:none;
+    padding:8px 20px;
+    border-radius:50px;
+    cursor:pointer;
+    margin:5px;
+    transition:0.3s;
+}
+
+.btn-play:hover{
+    transform:scale(1.1);
+}
+
+/* ========== OVERLAY FORMS ========== */
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    justify-content:center;
+    align-items:center;
+}
+
+.form-box{
+    background:rgba(255,255,255,0.1);
+    padding:25px;
+    border-radius:15px;
+    width:350px;
+}
+
+.form-box input{
+    width:100%;
+    padding:8px;
+    margin:8px 0;
+    border:none;
+    border-radius:6px;
+}
+
+.close-btn{
+    float:right;
+    background:red;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+/* ========== FOOTER ========== */
+footer{
+    background:#001;
+    padding:20px;
+    text-align:center;
+}
+
+/* ========== LIGHT MODE ========== */
+.light-mode{
+    background:white;
+    color:black;
+}
+
+.light-mode nav{
+    background:rgba(0,0,0,0.1);
+}
+.tournament-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.tournament-table th {
+    padding: 15px;
+    text-align: left;
+    background: linear-gradient(45deg,#1DB954,#00d4ff);
+    color: white;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.tournament-table tr {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.tournament-table th:hover {
+    background: linear-gradient(45deg,#00d4ff,#1DB954);
+}
+.description-footer {
+    background: linear-gradient(135deg, #020024, #090979, #00d4ff);
+    padding: 60px 10%;
+    text-align: center;
+    color: white;
+}
+
+.description-footer h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+}
+
+.description-footer p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    max-width: 800px;
+    margin: auto;
+    line-height: 1.6;
+}
+.img-banner {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.img-card {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="logo">SpotPoint</div>
+
+<div class="nav-links">
+<a href="#games">Games</a>
+<a href="#cod">Tournaments</a>
+<a href="#forza">Racing</a>
+<button class="btn-play" onclick="toggleTheme()">Toggle Mode</button>
+</div>
+</nav>
+
+<div class="search-container">
+<input type="text" id="searchBar" placeholder="Search Game...">
+</div>
+<section class="description-footer">
+    <h2>Fine tune your Esports Tournaments!</h2>
+    <p>
+        Join a multitude of esports competitions for many games around the block.
+
+        Show off your skills and win prizes. Or become the organiser!!
+    </p>
+</section>
+
+<main class="container">
+
+<h1 id="games">New Releases</h1>
+
+<div class="album-grid">
+
+<div class="album-card">
+<img src="https://images8.alphacoders.com/130/1302413.jpg">
+<h3>Clash of Clans</h3>
+<p> 21 March 2026 </p>
+<p>Asia-Pacific</p>
+<button class="btn-play" onclick="openForm('userForm')">User Registration</button>
+</div>
+
+<div class="album-card">
+
+ <img src="https://paas-file-pro.imetastore.io/shop/64cd94c16fdc3104999a10e6.jpg">
+ <h3>Valorant</h3>
+
+<p>North America</p>
+<button class="btn-play" onclick="openForm('userForm')">User Registration</button>
+</div>
+
+<div class="album-card">
+<img src="https://wallpapers.com/images/hd/blue-fortnite-desktop-hd-j1oac9i1pg3a0l7d.jpg">
+<h3>Fortnite</h3>
+
+<p> 27 March 2026 </p>
+<p>Europe</p>
+
+<button class="btn-play" onclick="openForm('userForm')">User Registration</button>
+<button class="btn-play" onclick="openForm('teamForm')">Team Registration</button>
+<button class="btn-play" onclick="openForm('tournamentForm')">Tournament Registration</button>
+<p id="countdown"></p>
+</div>
+
+</div>
+
+<h1 id="cod">Call of Duty</h1>
+<a href="cod.html">
+  <button class="btn-play">View COD</button>
+</a>
+<div id="content"></div>
+<p> To be Announced...</p>
+<div class="album-grid">
+<div class="album-card">
+
+<h1>Call of Duty</h1>
+<div class="image-section">
+
+  <!-- Al Mazrah Map -->
+  <img 
+    src="https://cdn1.dotesports.com/wp-content/uploads/2022/09/16084205/almazrah.jpg" 
+    class="img-card"
+    loading="lazy"
+  >
+
+  <!-- Gameplay Screenshot -->
+  <img 
+    src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2025/03/call-of-duty-warzone-verdansk.jpeg" 
+    class="img-card"
+    loading="lazy"
+  >
+
+</div>
+
+
+<h3>Warzone</h3>
+<button class="btn-play" onclick="openForm('teamForm')">Team Registration</button>
+<button class="btn-play" onclick="openForm('tournamentForm')">Tournament Registration</button>
+<button class="btn-play" onclick="openForm('userForm')">Register</button>
+</div>
+</div>
+
+<h1 id="forza">Forza Horizon</h1>
+<a href="Forza.html">
+  <button class="btn-play">View Forza Tournaments</button>
+</a>
+<div class="album-grid">
+<div class="album-card">
+<img src="https://www.rocketchainsaw.com.au/wp-content/uploads/2018/09/Forza-Horizon-4-Review-Logo.jpg">
+<h3>Forza Horizon 4</h3>
+<button class="btn-play" onclick="openForm('teamForm')">Team Registration</button>
+<button class="btn-play" onclick="openForm('tournamentForm')">Tournament Registration</button>
+</div>
+</div>
+
+<h2 id="sched">Upcoming Tournament Schedules</h2>
+
+<div class="album-grid">
+  <div class="album-card">
+
+    <table class="tournament-table">
+      <thead>
+        <tr>
+          <th>Tournament</th>
+          <th>Date 'n' Time</th>
+          <th>Game</th>
+          <th>Zone</th>
+          <th>Organizer</th>
+          <th>Prize</th>
+        </tr>
+      </thead>
+
+      <tbody id="tournamentBody"></tbody>
+    </table>
+
+  </div>
+</div>
+    <h2>Many upcoming new releases , esports ready</h2>
+    <p>
+     Fresh titles, faster competition, and bigger prizes. SpotPoint introduces newly released esports games ready for competitive play. Whether you’re a solo grinder or a team captain, your journey starts here.
+    </p>
+</section>
+
+<footer>
+© 2026 SpotPoint. All Rights Reserved.
+</footer>
+
+<!-- USER FORM -->
+<div class="overlay" id="userForm">
+<div class="form-box">
+<button class="close-btn" onclick="closeForm('userForm')">X</button>
+<h3>User Registration</h3>
+<form>
+<input type="text" placeholder="Username" required>
+<input type="email" placeholder="Email" required>
+<input type="text" placeholder="Game ID" required>
+<button class="btn-play" type="submit">Register</button>
+</form>
+</div>
+</div>
+
+<!-- TEAM FORM -->
+<div class="overlay" id="teamForm">
+<div class="form-box">
+<button class="close-btn" onclick="closeForm('teamForm')">X</button>
+<h3>Team Registration</h3>
+<form>
+<input type="text" placeholder="Team Name" required>
+<input type="text" placeholder="Captain Name" required>
+<button class="btn-play" type="submit">Register Team</button>
+</form>
+</div>
+</div>
+
+<div class="overlay" id="loginForm">
+  <div class="form-box">
+    <button class="close-btn" onclick="closeForm('loginForm')">X</button>
+    <h3>Login</h3>
+
+    <form id="loginFormData">
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button class="btn-play">Login</button>
+    </form>
+  </div>
+</div>
+<div class="overlay" id="tournamentForm">
+  <div class="form-box">
+    <button class="close-btn" onclick="closeForm('tournamentForm')">X</button>
+    <h2>Tournament Registration</h2>
+
+<form id="tournamentRegForm">
+
+  <input type="text" id="tName" placeholder="Tournament Name" required>
+  <input type="text" id="gName" placeholder="Game Name" required>
+  <input type="date" id="tDate" required min="">
+
+  
+  <input type="text" id="Zone" placeholder="Zone">
+  <input type="email" id="organizerEmail" placeholder="Organizer Email" required>
+  <button type="button" class="btn-play" onclick="sendOTP()">Send OTP</button>
+  <input type="text" id="otpInput" placeholder="Enter OTP">
+  <button type="button" class="btn-play" onclick="verifyOTP()">Verify OTP</button>
+  <input type="number" id="prize" placeholder="Prize Money ($)" required>
+
+  <button class="btn-play" style="width:100%;">Register</button>
+</form>
+  </div>
+</div>
+
+
+<script>
+
+let generatedOTP = "";
+let isVerified = false;
+
+/* Open/Close Forms */
+function openForm(id){
+  document.querySelectorAll(".overlay").forEach(o=>{
+    o.style.display = "none";
+  });
+
+  document.getElementById(id).style.display = "flex";
+  document.body.classList.add("no-scroll");
+}
+
+function closeForm(id){
+  document.getElementById(id).style.display = "none";
+  document.body.classList.remove("no-scroll");
+}
+
+/* Search */
+document.getElementById("searchBar").addEventListener("keyup",function(){
+let value=this.value.toLowerCase();
+let cards=document.querySelectorAll(".album-card");
+
+cards.forEach(card=>{
+let title=card.querySelector("h3").innerText.toLowerCase();
+card.style.display=title.includes(value)?"block":"none";
+});
+});
+
+/* Registration Success */
+document.querySelectorAll("form").forEach(form=>{
+  form.addEventListener("submit", function(e){
+
+    if(form.id === "tournamentRegForm") return;
+
+    e.preventDefault();
+    alert("Registration Successful! 🎉");
+    document.querySelectorAll(".overlay").forEach(o=>o.style.display="none");
+    form.reset();
+  });
+});
+
+/* Dark Mode */
+function toggleTheme(){
+document.body.classList.toggle("light-mode");
+}
+
+/* Countdown Timer */
+let eventDate=new Date("March 30, 2026 18:00:00").getTime();
+setInterval(function(){
+let now=new Date().getTime();
+let distance=eventDate-now;
+let days=Math.floor(distance/(1000*60*60*24));
+document.getElementById("countdown").innerHTML="Tournament starts in: "+days+" days";
+},1000);
+
+function toggleRegType() {
+    const type = document.getElementById("regType").value;
+
+    document.getElementById("soloFields").style.display = "none";
+    document.getElementById("teamFields").style.display = "none";
+
+    if (type === "solo") {
+        document.getElementById("soloFields").style.display = "block";
+    }
+    else if (type === "team") {
+        document.getElementById("teamFields").style.display = "block";
+    }
+}
+document.getElementById("loginFormData").addEventListener("submit", async function(e){
+  e.preventDefault();
+ if(!isVerified){
+    alert("Please verify your email first");
+    return;
+}
+  const data = {
+    email: this[0].value,
+    password: this[1].value
+  };
+
+  const res = await fetch("http://localhost:5000/login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+
+  const msg = await res.text();
+  alert(msg);
+});
+const params = new URLSearchParams(window.location.search);
+const game = params.get("game");
+
+let content = "";
+
+if(game === "valorant"){
+    content = `
+        <h1>Valorant Tournament</h1>
+        <p>Game Info: Valorant is a 2020 first-person tactical hero shooter video game developed and published by Riot Games. 
+A free-to-play game, Valorant takes inspiration from the Counter-Strike series, 
+borrowing several mechanics such as the buy menu, spray patterns, and inaccuracy while moving.</p>
+        <p>Date: March 25, 2026</p>
+        <p>Region: North America</p>
+        <p>Prize: $50,000</p>
+    `;
+}
+else if(game === "fortnite"){
+    content = `
+        <h1>Fortnite Tournament</h1>
+        <p>Date: March 27, 2026</p>
+        <p>Region: Europe</p>
+        <p>Prize: $30,000</p>
+    `;
+}
+else if(game === "coc"){
+    content = `
+        <h1>Clash of Clans Tournament</h1>
+        <p>Date: March 21, 2026</p>
+        <p>Region: Asia-Pacific</p>
+        <p>Prize: $10,000</p>
+    `;
+}
+
+document.getElementById("content").innerHTML = content;
+function loadTournaments(){
+
+    const tournaments = JSON.parse(localStorage.getItem("tournaments")) || [];
+
+    let rows = "";
+
+    tournaments.forEach(t => {
+        rows += `
+        <tr>
+            <td>${t.name}</td>
+            <td>${t.date}</td>
+            <td>${t.game}</td>
+            <td>${t.zone}</td>
+            <td>${t.organizer}</td> 
+            <td>${t.email}</td>
+            <td>$${t.prize}</td>
+            <td>${t.code}</td>
+        </tr>
+        `;
+    });
+
+    document.getElementById("tournamentBody").innerHTML = rows;
+}
+
+document.getElementById("tournamentRegForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    //  Get values
+    const name = document.getElementById("tName").value;
+    const game = document.getElementById("gName").value;
+    const date = document.getElementById("tDate").value;
+    const zone = document.getElementById("Zone").value || "-";
+    const organizer = document.getElementById("organizer").value;
+    const prize = document.getElementById("prize").value;
+    const code = generateCode();
+
+    // Date validation
+    const selectedDate = new Date(date);
+    const todayCheck = new Date();
+    todayCheck.setHours(0,0,0,0);
+
+    if(selectedDate < todayCheck){
+        alert("Cannot select past dates");
+        return;
+    }
+
+    const minDate = new Date();
+    minDate.setDate(minDate.getDate() + 1);
+
+    if(selectedDate < minDate){
+        alert("Tournament must be at least 1 day ahead");
+        return;
+    }
+
+   const email = document.getElementById("organizerEmail").value;
+   const tournament = {
+    name,
+    game,
+    date,
+    zone,
+    organizer,
+    email,
+    prize,
+    code
+};
+
+    // Save to localStorage
+    let tournaments = JSON.parse(localStorage.getItem("tournaments")) || [];
+    tournaments.push(tournament);
+    localStorage.setItem("tournaments", JSON.stringify(tournaments));
+
+    // Create table row
+    const row = `
+        <tr>
+            <td>${name}</td>
+            <td>${date}</td>
+            <td>${game}</td>
+            <td>${zone}</td>
+            <td>${organizer}</td>
+            <td>$${prize}</td>
+            <td>${code}</td>
+        </tr>
+    `;
+
+    //  Add to table
+    document.getElementById("tournamentRegForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const name = document.getElementById("tName").value;
+    const game = document.getElementById("gName").value;
+    const date = document.getElementById("tDate").value;
+    const zone = document.getElementById("Zone").value;
+    const organizer = document.getElementById("organizer").value;
+    const prize = document.getElementById("prize").value;
+    const code = generateCode();
+
+    await fetch("http://localhost:5000/addTournament", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name,
+            game,
+            date,
+            zone,
+            organizer,
+            prize,
+            code
+        })
+    });
+
+    alert("Tournament Added Successfully ✅");
+
+    closeForm("tournamentForm");
+    this.reset();
+
+    loadTournaments(); // 🔥 refresh table
+});
+
+    // Success
+    alert("Tournament Added Successfully ");
+
+    // Close + reset
+    closeForm("tournamentForm");
+    this.reset();
+});
+
+const today = new Date().toISOString().split("T")[0];
+document.getElementById("tDate").setAttribute("min", today);
+
+function generateCode(){
+    return Math.random().toString(36).substring(2,8).toUpperCase();
+}
+function sendOTP(){
+    const email = document.getElementById("organizerEmail").value;
+
+    if(!email){
+        alert("Enter email first");
+        return;
+    }
+
+    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    alert("OTP sent: " + generatedOTP);
+}
+
+function verifyOTP(){
+    const userOTP = document.getElementById("otpInput").value;
+
+    if(userOTP === generatedOTP){
+        alert("Email Verified!");
+        isVerified = true;
+    } else {
+        alert("Invalid OTP");
+    }
+}
+loadTournaments();
+document.getElementById("organizerEmail").addEventListener("input", () => {
+    isVerified = false;
+});
+async function loadTournaments(){
+    const res = await fetch("http://localhost:5000/getTournaments");
+    const data = await res.json();
+
+    let rows = "";
+
+    data.forEach(t => {
+        rows += `
+        <tr>
+            <td>${t.name}</td>
+            <td>${t.date}</td>
+            <td>${t.game}</td>
+            <td>${t.zone}</td>
+            <td>${t.organizer}</td>
+            <td>$${t.prize}</td>
+            <td>${t.code}</td>
+        </tr>
+        `;
+    });
+
+    document.getElementById("tournamentBody").innerHTML = rows;
+}
+
+</script>
+
+</body>
+</html>
